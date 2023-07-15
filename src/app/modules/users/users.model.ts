@@ -1,21 +1,20 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import mongoose, { Model, Schema } from 'mongoose';
-import { userRole } from './users.constant';
 import config from '../../../config';
 import bcrypt from 'bcrypt';
 import { IUser, UserModel } from './users.interface';
 
 const UserSchema = new Schema<IUser, UserModel>(
   {
-    password: {
-      type: String,
-      required: true,
-    },
     name: {
       type: String,
       required: true,
     },
     email: {
+      type: String,
+      required: true,
+    },
+    password: {
       type: String,
       required: true,
     },

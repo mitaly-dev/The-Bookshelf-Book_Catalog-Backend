@@ -1,9 +1,9 @@
 import { Model } from 'mongoose';
 
 export type IUser = {
+  name: string;
   email: string;
   password: string;
-  name: string;
 };
 
 export type UserModel = {

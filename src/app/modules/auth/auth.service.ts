@@ -51,39 +51,7 @@ const loginUser = async (payload: IUserAuth): Promise<IJWTResponse> => {
   };
 };
 
-// refresh token
-const refreshToken = async (token: string) => {
-  let verifiedToken = null;
-  try {
-    verifiedToken = jwtHelpers.verifiedToken(
-      token,
-      config.jwt.refresh_secret as Secret
-    );
-  } catch (error) {
-    throw new ApiError(httpStatus.FORBIDDEN, 'Invalid token!');
-  }
-
-  const { id } = verifiedToken;
-
-  // find user exist
-  const isUserExist = await User.findOne({ _id: id });
-
-  if (!isUserExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
-
-  const newAccessToken = jwtHelpers.createToken(
-    { id: isUserExist?._id, role: isUserExist?.role },
-    config.jwt.secret as Secret,
-    config.jwt.expires_in as string
-  );
-  return {
-    accessToken: newAccessToken,
-  };
-};
-
 export const AuthService = {
   signup,
   loginUser,
-  refreshToken,
 };
