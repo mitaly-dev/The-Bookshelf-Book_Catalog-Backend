@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-import mongoose, { Model, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import config from '../../../config';
 import bcrypt from 'bcrypt';
 import { IUser, UserModel } from './users.interface';

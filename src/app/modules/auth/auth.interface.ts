@@ -1,5 +1,5 @@
 export type IUserAuth = {
-  phoneNumber: string;
+  email: string;
   password: string;
 };
 

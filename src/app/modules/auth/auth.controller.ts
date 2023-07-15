@@ -6,45 +6,24 @@ import { Request, Response } from 'express';
 import config from '../../../config';
 
 // login users
-const loginUser = AsyncErrorHandler(async (req: Request, res: Response) => {
-  const result = await AuthService.loginUser(req.body);
-  const { refreshToken, ...others } = result;
+// const loginUser = AsyncErrorHandler(async (req: Request, res: Response) => {
+//   const result = await AuthService.loginUser(req.body);
+//   const { refreshToken, ...others } = result;
 
-  const refreshToken_options = {
-    secure: config.env === 'production',
-    httpOnly: true,
-  };
+//   const refreshToken_options = {
+//     secure: config.env === 'production',
+//     httpOnly: true,
+//   };
 
-  res.cookie('refreshToken', refreshToken, refreshToken_options);
+//   res.cookie('refreshToken', refreshToken, refreshToken_options);
 
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: 'User logged in successfully',
-    data: others,
-  });
-});
-
-// refresh token
-const refreshToken = AsyncErrorHandler(async (req: Request, res: Response) => {
-  const { refreshToken } = req.cookies;
-
-  const result = await AuthService.refreshToken(refreshToken);
-
-  const refreshToken_options = {
-    secure: config.env === 'production',
-    httpOnly: true,
-  };
-
-  res.cookie('refreshToken', refreshToken, refreshToken_options);
-
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: 'new access token create successfully',
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: httpStatus.OK,
+//     message: 'User logged in successfully',
+//     data: others,
+//   });
+// });
 
 const signup = AsyncErrorHandler(async (req: Request, res: Response) => {
   const data = req.body;
@@ -62,6 +41,5 @@ const signup = AsyncErrorHandler(async (req: Request, res: Response) => {
 
 export const AuthCtrl = {
   signup,
-  loginUser,
-  refreshToken,
+  // loginUser,
 };
