@@ -32,7 +32,7 @@ const createUser = AsyncErrorHandler(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'user create successfull',
+    message: 'User create successfull',
     data: result,
   });
 });
