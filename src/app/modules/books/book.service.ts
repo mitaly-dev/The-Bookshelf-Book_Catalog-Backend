@@ -49,7 +49,8 @@ const getAllBooks = async (filters: IBookFilters | any) => {
 };
 
 const getFeaturedBooks = async () => {
-  const result = await Book.find({}).sort({ createdAt: -1 }).limit(10).lean();
+  const result = await Book.find({}).sort({ createdAt: -1 }).limit(10);
+  console.log(' result', result);
   if (!result) {
     throw new ApiError(404, 'Book not found!');
   }
