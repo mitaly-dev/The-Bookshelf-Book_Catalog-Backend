@@ -20,10 +20,14 @@ const BookSchema = new Schema<IBook>(
       type: String,
       required: true,
     },
+    imageUrl: {
+      type: String,
+    },
     userEmail: {
       type: String,
       required: true,
     },
+    reviews: Array,
   },
   {
     timestamps: true,

@@ -9,7 +9,6 @@ const auth = () => async (req: Request, res: Response, next: NextFunction) => {
   try {
     //get authorization token
     const token = req.headers.authorization;
-    const { userEmail } = req.body;
 
     if (!token) {
       throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized');
@@ -20,10 +19,9 @@ const auth = () => async (req: Request, res: Response, next: NextFunction) => {
     verifiedUser = jwtHelpers.verifiedToken(token, config.jwt.secret as Secret);
 
     req.user = verifiedUser;
-
-    if (userEmail !== verifiedUser.email) {
-      throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden User');
-    }
+    // if (userEmail !== verifiedUser.email) {
+    //   throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden User');
+    // }
 
     next();
   } catch (error) {
