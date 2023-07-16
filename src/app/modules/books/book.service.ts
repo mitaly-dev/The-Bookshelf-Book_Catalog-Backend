@@ -48,13 +48,13 @@ const getAllBooks = async (filters: IBookFilters | any) => {
   };
 };
 
-// const getAllBooks = async () => {
-//   const result = await Book.find({}).lean();
-//   if (!result) {
-//     throw new ApiError(404, 'Book not found!');
-//   }
-//   return result;
-// };
+const getFeaturedBooks = async () => {
+  const result = await Book.find({}).sort({ createdAt: -1 }).limit(10).lean();
+  if (!result) {
+    throw new ApiError(404, 'Book not found!');
+  }
+  return result;
+};
 
 const getSingleBook = async (id: string) => {
   const result = await Book.findById({ _id: id }).lean();
@@ -92,4 +92,5 @@ export const BookService = {
   getSingleBook,
   updateBook,
   deleteBook,
+  getFeaturedBooks,
 };

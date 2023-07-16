@@ -37,14 +37,6 @@ const getAllBooks = AsyncErrorHandler(async (req: Request, res: Response) => {
     message: 'All Books retrieved successfully',
     data: result,
   });
-  //   const result = await BookService.getAllBooks();
-
-  //   sendResponse(res, {
-  //     statusCode: httpStatus.OK,
-  //     success: true,
-  //     message: 'All Books retrieved successfully',
-  //     data: result,
-  //   });
 });
 
 const getSingleBook = AsyncErrorHandler(async (req: Request, res: Response) => {
@@ -58,6 +50,20 @@ const getSingleBook = AsyncErrorHandler(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+const getFeaturedBooks = AsyncErrorHandler(
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const result = await BookService.getSingleBook(id);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Book retrieved successfully',
+      data: result,
+    });
+  }
+);
 
 const updateBook = AsyncErrorHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -90,4 +96,5 @@ export const BookCtrl = {
   getSingleBook,
   updateBook,
   deleteBook,
+  getFeaturedBooks,
 };
