@@ -6,28 +6,28 @@ import { Request, Response } from 'express';
 import config from '../../../config';
 
 // login users
-// const loginUser = AsyncErrorHandler(async (req: Request, res: Response) => {
-//   const result = await AuthService.loginUser(req.body);
-//   const { refreshToken, ...others } = result;
+const loginUser = AsyncErrorHandler(async (req: Request, res: Response) => {
+  const result = await AuthService.loginUser(req.body);
+  const { refreshToken, ...others } = result;
 
-//   const refreshToken_options = {
-//     secure: config.env === 'production',
-//     httpOnly: true,
-//   };
+  const refreshToken_options = {
+    secure: config.env === 'production',
+    httpOnly: true,
+  };
 
-//   res.cookie('refreshToken', refreshToken, refreshToken_options);
+  res.cookie('refreshToken', refreshToken, refreshToken_options);
 
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: httpStatus.OK,
-//     message: 'User logged in successfully',
-//     data: others,
-//   });
-// });
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User logged in successfully',
+    data: others,
+  });
+});
 
-const signup = AsyncErrorHandler(async (req: Request, res: Response) => {
+const createUser = AsyncErrorHandler(async (req: Request, res: Response) => {
   const data = req.body;
-  const result = await AuthService.signup(data);
+  const result = await AuthService.createUser(data);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -40,6 +40,6 @@ const signup = AsyncErrorHandler(async (req: Request, res: Response) => {
 // login users service
 
 export const AuthCtrl = {
-  signup,
-  // loginUser,
+  createUser,
+  loginUser,
 };
