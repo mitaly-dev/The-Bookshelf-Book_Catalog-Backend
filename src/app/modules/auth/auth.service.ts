@@ -19,7 +19,7 @@ const createUser = async (payload: IUser) => {
 };
 
 // login
-const loginUser = async (payload: IUserAuth): Promise<IJWTResponse> => {
+const loginUser = async (payload: IUserAuth) => {
   const { email: userEmail, password } = payload;
 
   const isUserExit = await User.findOne({ email: userEmail });
@@ -52,6 +52,7 @@ const loginUser = async (payload: IUserAuth): Promise<IJWTResponse> => {
   return {
     accessToken,
     refreshToken,
+    email,
   };
 };
 

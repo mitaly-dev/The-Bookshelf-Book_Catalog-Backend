@@ -5,6 +5,9 @@ import { Request, Response } from 'express';
 import { ApiError } from '../../../error/ApiError';
 import { Book } from './book.model';
 import { BookService } from './book.service';
+import pick from '../../../shared/pick';
+import { bookfilterableFields, filterableFields } from './book.interface';
+import { any } from 'zod';
 
 const addNewBook = AsyncErrorHandler(async (req: Request, res: Response) => {
   const user = req.user;
@@ -24,7 +27,9 @@ const addNewBook = AsyncErrorHandler(async (req: Request, res: Response) => {
 });
 
 const getAllBooks = AsyncErrorHandler(async (req: Request, res: Response) => {
-  const result = await BookService.getAllBooks();
+  const filters = pick(req.query, filterableFields);
+
+  const result = await BookService.getAllBooks(filters);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -32,6 +37,14 @@ const getAllBooks = AsyncErrorHandler(async (req: Request, res: Response) => {
     message: 'All Books retrieved successfully',
     data: result,
   });
+  //   const result = await BookService.getAllBooks();
+
+  //   sendResponse(res, {
+  //     statusCode: httpStatus.OK,
+  //     success: true,
+  //     message: 'All Books retrieved successfully',
+  //     data: result,
+  //   });
 });
 
 const getSingleBook = AsyncErrorHandler(async (req: Request, res: Response) => {

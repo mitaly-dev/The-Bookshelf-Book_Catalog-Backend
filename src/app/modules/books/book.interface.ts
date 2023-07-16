@@ -12,4 +12,14 @@ export type IBook = {
   imageUrl: string;
   userEmail: string;
   reviews: Ireview[];
+  publicationYear: string;
 };
+
+export type IBookFilters = {
+  searchTerm: string;
+  genre: string;
+  publicationYear: string;
+};
+
+export const filterableFields = ['searchTerm', 'genre', 'publicationYear'];
+export const bookfilterableFields = ['searchTerm', 'title', 'author', 'genre'];

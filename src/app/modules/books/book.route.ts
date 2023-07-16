@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.get('/:id', BookCtrl.getSingleBook);
 router.get('/', BookCtrl.getAllBooks);
-router.post('/add-new-book', auth(), BookCtrl.addNewBook);
-router.patch('/:id', auth(), BookCtrl.updateBook);
-router.delete('/:id', auth(), BookCtrl.deleteBook);
+router.post('/', BookCtrl.addNewBook);
+router.patch('/:id', BookCtrl.updateBook);
+router.delete('/:id', BookCtrl.deleteBook);
 
 export const BookRoute = router;
