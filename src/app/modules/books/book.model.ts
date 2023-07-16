@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import mongoose, { Schema } from 'mongoose';
 import { IBook } from './book.interface';
+import { boolean } from 'zod';
 
 const BookSchema = new Schema<IBook>(
   {
@@ -32,6 +33,9 @@ const BookSchema = new Schema<IBook>(
       required: true,
     },
     reviews: Array,
+    wishlist: Boolean,
+    planToRead: Boolean,
+    finishedRead: Boolean,
   },
   {
     timestamps: true,
