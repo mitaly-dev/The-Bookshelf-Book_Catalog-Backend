@@ -53,13 +53,12 @@ const getSingleBook = AsyncErrorHandler(async (req: Request, res: Response) => {
 
 const getFeaturedBooks = AsyncErrorHandler(
   async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const result = await BookService.getSingleBook(id);
+    const result = await BookService.getFeaturedBooks();
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Book retrieved successfully',
+      message: 'Featured Book retrieved successfully',
       data: result,
     });
   }
