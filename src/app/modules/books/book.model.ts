@@ -20,7 +20,7 @@ const BookSchema = new Schema<IBook>(
       type: String,
       required: true,
     },
-    bookOwner: {
+    userEmail: {
       type: String,
       required: true,
     },

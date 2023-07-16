@@ -5,5 +5,5 @@ export type IBook = {
   author: string;
   genre: string;
   publication: string;
-  bookOwner: string;
+  userEmail: string;
 };

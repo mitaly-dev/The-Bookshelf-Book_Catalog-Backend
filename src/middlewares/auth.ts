@@ -5,30 +5,30 @@ import { ApiError } from '../error/ApiError';
 import { jwtHelpers } from '../helpers/jwtHelpers';
 import config from '../config';
 
-const auth =
-  (...requiredRoles: string[]) =>
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      //get authorization token
-      const token = req.headers.authorization;
+const auth = () => async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    //get authorization token
+    const token = req.headers.authorization;
+    const { userEmail } = req.body;
 
-      if (!token) {
-        throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized');
-      }
-
-      let verifiedUser = null;
-
-      verifiedUser = jwtHelpers.verifiedToken(
-        token,
-        config.jwt.secret as Secret
-      );
-
-      req.user = verifiedUser;
-
-      next();
-    } catch (error) {
-      next(error);
+    if (!token) {
+      throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized');
     }
-  };
+
+    let verifiedUser = null;
+
+    verifiedUser = jwtHelpers.verifiedToken(token, config.jwt.secret as Secret);
+
+    req.user = verifiedUser;
+
+    if (userEmail !== verifiedUser.email) {
+      throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden User');
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
 
 export default auth;
