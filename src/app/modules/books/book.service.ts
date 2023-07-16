@@ -28,9 +28,19 @@ const getSingleBook = async (id: string) => {
   return result;
 };
 
+const updateBook = async (id: string, payload: IBook) => {
+  const result = await Book.findByIdAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  if (!result) {
+    throw new ApiError(404, 'update book not found!');
+  }
+  return result;
+};
+
 const deleteBook = async (id: string, user: JwtPayload | null) => {
   const isAuthorized = await Book.findOne({ _id: id }).lean();
-  if (isAuthorized?.userEmail !== user.email) {
+  if (user?.email && isAuthorized?.userEmail !== user.email) {
     throw new ApiError(404, 'You are not Authorized to delete this book!');
   }
   const result = await Book.deleteOne({ _id: id }).lean();
@@ -44,5 +54,6 @@ export const BookService = {
   addNewBook,
   getAllBooks,
   getSingleBook,
+  updateBook,
   deleteBook,
 };

@@ -46,6 +46,18 @@ const getSingleBook = AsyncErrorHandler(async (req: Request, res: Response) => {
   });
 });
 
+const updateBook = AsyncErrorHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await BookService.updateBook(id, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Book update successfully',
+    data: result,
+  });
+});
+
 const deleteBook = AsyncErrorHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const user = req.user;
@@ -63,5 +75,6 @@ export const BookCtrl = {
   addNewBook,
   getAllBooks,
   getSingleBook,
+  updateBook,
   deleteBook,
 };
