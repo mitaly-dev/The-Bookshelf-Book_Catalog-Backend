@@ -13,9 +13,6 @@ export type IBook = {
   userEmail: string;
   reviews: Ireview[];
   publicationYear: string;
-  wishlist: boolean;
-  planToRead: boolean;
-  finishedRead: boolean;
 };
 
 export type IBookFilters = {

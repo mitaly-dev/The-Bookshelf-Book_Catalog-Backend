@@ -33,20 +33,10 @@ const BookSchema = new Schema<IBook>(
       required: true,
     },
     reviews: Array,
-    wishlist: Boolean,
-    planToRead: Boolean,
-    finishedRead: Boolean,
   },
   {
     timestamps: true,
   }
 );
-
-// BookSchema.statics.isPasswordMatch = async function (
-//   givenPassword: string,
-//   savedPassword: string
-// ): Promise<boolean | null> {
-//   return await bcrypt.compare(givenPassword, savedPassword);
-// };
 
 export const Book = mongoose.model<IBook>('Book', BookSchema);
