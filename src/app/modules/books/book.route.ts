@@ -3,6 +3,7 @@ import { BookCtrl } from './book.controller';
 
 const router = express.Router();
 
+router.patch('/add-review/:id', BookCtrl.addReview);
 router.get('/featuredBook', BookCtrl.getFeaturedBooks);
 router.get('/:id', BookCtrl.getSingleBook);
 router.get('/', BookCtrl.getAllBooks);

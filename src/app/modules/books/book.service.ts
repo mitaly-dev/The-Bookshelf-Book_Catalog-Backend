@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { JwtPayload } from 'jsonwebtoken';
 import { Book } from './book.model';
-import { IBook, IBookFilters } from './book.interface';
+import { IBook, IBookFilters, IReview } from './book.interface';
 import { ApiError } from '../../../error/ApiError';
 
 const addNewBook = async (user: JwtPayload | null, payload: IBook) => {
@@ -87,6 +87,23 @@ const deleteBook = async (id: string, user: JwtPayload | null) => {
   return result;
 };
 
+const addReview = async (id: string, payload: IReview) => {
+  const book = await Book.findById({ _id: id }).lean();
+
+  if (book) {
+    const book = await Book.findByIdAndUpdate(
+      id,
+      { $push: { reviews: { $each: [payload], $position: 0 } } },
+      { new: true }
+    ).lean();
+  }
+
+  if (!book) {
+    throw new ApiError(404, 'no book found');
+  }
+  return book;
+};
+
 export const BookService = {
   addNewBook,
   getAllBooks,
@@ -94,4 +111,5 @@ export const BookService = {
   updateBook,
   deleteBook,
   getFeaturedBooks,
+  addReview,
 };

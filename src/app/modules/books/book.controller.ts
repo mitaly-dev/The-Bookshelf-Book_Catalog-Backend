@@ -89,6 +89,18 @@ const deleteBook = AsyncErrorHandler(async (req: Request, res: Response) => {
   });
 });
 
+const addReview = AsyncErrorHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await BookService.addReview(id, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Review added successfully',
+    data: result,
+  });
+});
+
 export const BookCtrl = {
   addNewBook,
   getAllBooks,
@@ -96,4 +108,5 @@ export const BookCtrl = {
   updateBook,
   deleteBook,
   getFeaturedBooks,
+  addReview,
 };

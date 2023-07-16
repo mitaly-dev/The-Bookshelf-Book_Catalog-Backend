@@ -21,5 +21,10 @@ export type IBookFilters = {
   publicationYear: string;
 };
 
+export type IReview = {
+  user: string;
+  review: string;
+};
+
 export const filterableFields = ['searchTerm', 'genre', 'publicationYear'];
 export const bookfilterableFields = ['searchTerm', 'title', 'author', 'genre'];
