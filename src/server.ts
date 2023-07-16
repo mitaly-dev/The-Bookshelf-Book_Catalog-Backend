@@ -15,10 +15,10 @@ async function main() {
   try {
     await mongoose.connect(config.database_url as string);
     server = app.listen(config.port, () => {
-      console.log(`server listening on port ${config.port}`);
+      console.log(`server listening on port in the-bookshelf ${config.port}`);
     });
 
-    console.log(`database connect successful`);
+    console.log(`database connect successful in the-bookshelf ${config.port}`);
   } catch (error) {
     console.log('something is wrong');
   }
@@ -43,4 +43,8 @@ process.on('SIGTERM', () => {
   if (server) {
     server.close();
   }
+});
+
+app.get('/', (req, res) => {
+  res.send({ message: 'my name is mitaly' });
 });

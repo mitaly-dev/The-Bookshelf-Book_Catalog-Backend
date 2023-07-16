@@ -1,14 +1,9 @@
 import express, { Router } from 'express';
 import { AuthCtrl } from './auth.controller';
-import validateRequest from '../../../middlewares/validateRequest';
 
 const router = express.Router();
 
-// router.post(
-//   '/login',
-//   validateRequest(AuthValidation.loginZodSchema),
-//   AuthCtrl.loginUser
-// );
-router.post('/signup', AuthCtrl.signup);
+router.post('/create-user', AuthCtrl.signup);
+router.post('/login-user', AuthCtrl.signup);
 
 export const AuthRoute = router;

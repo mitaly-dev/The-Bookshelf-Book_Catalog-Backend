@@ -1,14 +1,12 @@
-import httpStatus from 'http-status';
 import { ApiError } from '../../../error/ApiError';
 import { IUser } from '../../modules/users/users.interface';
 import { User } from '../../modules/users/users.model';
-import config from '../../../config';
-import { jwtHelpers } from '../../../helpers/jwtHelpers';
-import { IJWTResponse, IUserAuth } from './auth.interface';
-import { Secret } from 'jsonwebtoken';
 
 const signup = async (payload: IUser) => {
+  console.log('duplicate', payload);
+  const user = await User.find(payload);
   const result = await User.create(payload);
+
   if (!result) {
     throw new ApiError(404, 'signup request failed!');
   }
