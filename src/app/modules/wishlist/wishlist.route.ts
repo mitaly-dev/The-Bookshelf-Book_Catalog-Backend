@@ -1,9 +1,9 @@
 import express from 'express';
-import { BookCtrl } from './wishlist.controller';
+import { WishlistCtrl } from './wishlist.controller';
 
 const router = express.Router();
 
-router.post('/add-wishlist', BookCtrl.addReview);
-router.get('/', BookCtrl.getFeaturedBooks);
+router.post('/add-wishlist', WishlistCtrl.addBookWishlist);
+router.get('/', WishlistCtrl.getWishlists);
 
 export const WishlistRoute = router;

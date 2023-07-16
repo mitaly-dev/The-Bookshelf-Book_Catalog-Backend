@@ -3,115 +3,33 @@ import AsyncErrorHandler from '../../../shared/AsyncErrorHandler';
 import sendResponse from '../../../shared/sendResponse';
 import { Request, Response } from 'express';
 import { ApiError } from '../../../error/ApiError';
-import { Book } from './book.model';
-import { BookService } from './book.service';
-import pick from '../../../shared/pick';
-import { bookfilterableFields, filterableFields } from './book.interface';
 import { any } from 'zod';
+import { WishlistService } from './wishlist.service';
 
-const addNewBook = AsyncErrorHandler(async (req: Request, res: Response) => {
-  const user = req.user;
-  const { userEmail } = req.body;
-
-  if (user && userEmail !== user.email) {
-    throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden User');
-  }
-
-  const result = await BookService.addNewBook(user, req.body);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'New Book create successfully',
-    data: result,
-  });
-});
-
-const getAllBooks = AsyncErrorHandler(async (req: Request, res: Response) => {
-  const filters = pick(req.query, filterableFields);
-
-  const result = await BookService.getAllBooks(filters);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'All Books retrieved successfully',
-    data: result,
-  });
-});
-
-const getSingleBook = AsyncErrorHandler(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const result = await BookService.getSingleBook(id);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Book retrieved successfully',
-    data: result,
-  });
-});
-
-const getFeaturedBooks = AsyncErrorHandler(
+const addBookWishlist = AsyncErrorHandler(
   async (req: Request, res: Response) => {
-    const result = await BookService.getFeaturedBooks();
-
+    const result = await WishlistService.addBookWishlist(req.body);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Featured Book retrieved successfully',
+      message: 'Book added in wishlist successfully',
       data: result,
     });
   }
 );
 
-const updateBook = AsyncErrorHandler(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const result = await BookService.updateBook(id, req.body);
-
-  console.log(
-    'req.body==================================================================',
-    req.body
-  );
+const getWishlists = AsyncErrorHandler(async (req: Request, res: Response) => {
+  const result = await WishlistService.getWishlists();
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Book update successfully',
+    message: 'Wishlist retrieved successfully',
     data: result,
   });
 });
 
-const deleteBook = AsyncErrorHandler(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const user = req.user;
-  const result = await BookService.deleteBook(id, user);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Book delete successfully',
-    data: result,
-  });
-});
-
-const addReview = AsyncErrorHandler(async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  const result = await BookService.addReview(id, req.body);
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Review added successfully',
-    data: result,
-  });
-});
-
-export const BookCtrl = {
-  addNewBook,
-  getAllBooks,
-  getSingleBook,
-  updateBook,
-  deleteBook,
-  getFeaturedBooks,
-  addReview,
+export const WishlistCtrl = {
+  addBookWishlist,
+  getWishlists,
 };
