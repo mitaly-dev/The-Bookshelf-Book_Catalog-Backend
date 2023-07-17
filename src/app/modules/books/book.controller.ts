@@ -101,6 +101,20 @@ const addReview = AsyncErrorHandler(async (req: Request, res: Response) => {
   });
 });
 
+const getPublishedYears = AsyncErrorHandler(
+  async (req: Request, res: Response) => {
+    const genre = req.query.genre as string;
+    const result = await BookService.getPublishedYears(genre);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Published year retrieved successfully',
+      data: result,
+    });
+  }
+);
+
 export const BookCtrl = {
   addNewBook,
   getAllBooks,
@@ -109,4 +123,5 @@ export const BookCtrl = {
   deleteBook,
   getFeaturedBooks,
   addReview,
+  getPublishedYears,
 };

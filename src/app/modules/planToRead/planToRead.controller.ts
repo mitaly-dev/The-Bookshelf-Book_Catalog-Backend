@@ -23,14 +23,14 @@ const addPlanToRead = AsyncErrorHandler(async (req: Request, res: Response) => {
     return sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'remove successfully',
+      message: 'Remove from Plan To Read successfully',
     });
   }
   const result = await PlanToReadService.addPlanToRead(book);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Book added in PlanToRead successfully',
+    message: 'Book added in Plan To Read successfully',
     data: result,
   });
 });

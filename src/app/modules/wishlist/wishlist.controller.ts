@@ -15,10 +15,6 @@ const addBookWishlist = AsyncErrorHandler(
       bookId: book?.bookId,
     }).lean();
 
-    console.log(
-      ' isExist=================================================================================================================',
-      isExist
-    );
     if (isExist) {
       await Wishlist.deleteOne({
         userEmail: book?.userEmail,
@@ -28,7 +24,7 @@ const addBookWishlist = AsyncErrorHandler(
       return sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'remove successfully',
+        message: 'Remove from wishlist successfully',
       });
     }
     const result = await WishlistService.addBookWishlist(book);

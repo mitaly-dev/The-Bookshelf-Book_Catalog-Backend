@@ -10,7 +10,7 @@ const getAllUsers = AsyncErrorHandler(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'get all users successfully',
+    message: 'Get all users successfully',
     data: result,
   });
 });
@@ -23,7 +23,7 @@ const getSingleUser = AsyncErrorHandler(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'find single user successfully',
+    message: 'Find single user successfully',
     data: result,
   });
 });

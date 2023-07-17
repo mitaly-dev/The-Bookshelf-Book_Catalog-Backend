@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import mongoose, { Schema } from 'mongoose';
-import { IPlanToRead } from './planToRead.interface';
+import { IFinishedBook } from './finishedBook.interface';
 
-const planToReadSchema = new Schema<IPlanToRead>(
+const FinishedBookSchema = new Schema<IFinishedBook>(
   {
-    book: {
-      type: Object,
-      required: true,
-    },
     bookId: {
       type: String,
       required: true,
@@ -22,7 +18,7 @@ const planToReadSchema = new Schema<IPlanToRead>(
   }
 );
 
-export const PlanToRead = mongoose.model<IPlanToRead>(
-  'PlanToRead',
-  planToReadSchema
+export const FinishedBook = mongoose.model<IFinishedBook>(
+  'FinishedBook',
+  FinishedBookSchema
 );

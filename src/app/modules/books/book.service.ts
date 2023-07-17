@@ -103,6 +103,22 @@ const addReview = async (id: string, payload: IReview) => {
   }
   return book;
 };
+const getPublishedYears = async (genre: string) => {
+  const result = await Book.find({ genre }).lean();
+
+  const uniqueValues: any[] = [];
+  result.filter(data => {
+    if (!uniqueValues.includes(data?.publicationYear)) {
+      uniqueValues.push(data?.publicationYear);
+    }
+  });
+
+  console.log(' result', result);
+  if (!result) {
+    throw new ApiError(404, 'Publish year not found!');
+  }
+  return result;
+};
 
 export const BookService = {
   addNewBook,
@@ -112,4 +128,5 @@ export const BookService = {
   deleteBook,
   getFeaturedBooks,
   addReview,
+  getPublishedYears,
 };

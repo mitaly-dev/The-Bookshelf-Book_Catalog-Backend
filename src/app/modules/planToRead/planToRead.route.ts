@@ -7,4 +7,4 @@ const router = express.Router();
 router.post('/add-planToRead', PlanToReadCtrl.addPlanToRead);
 router.get('/', auth(), PlanToReadCtrl.getPlanToRead);
 
-export const WishlistRoute = router;
+export const PlanToReadRoute = router;

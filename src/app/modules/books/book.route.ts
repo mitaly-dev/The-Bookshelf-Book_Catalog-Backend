@@ -10,5 +10,6 @@ router.get('/', BookCtrl.getAllBooks);
 router.post('/', BookCtrl.addNewBook);
 router.patch('/:id', BookCtrl.updateBook);
 router.delete('/:id', BookCtrl.deleteBook);
+router.get('/publishedYears', BookCtrl.deleteBook);
 
 export const BookRoute = router;
