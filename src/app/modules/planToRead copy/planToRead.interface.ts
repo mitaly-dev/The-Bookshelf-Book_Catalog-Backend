@@ -1,6 +1,6 @@
 import { string } from 'zod';
 
-export type IWishlist = {
+export type IPlanToRead = {
   book: object;
   bookId: string;
   userEmail: string;

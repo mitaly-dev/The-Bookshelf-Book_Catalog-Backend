@@ -2,13 +2,36 @@ import httpStatus from 'http-status';
 import AsyncErrorHandler from '../../../shared/AsyncErrorHandler';
 import sendResponse from '../../../shared/sendResponse';
 import { Request, Response } from 'express';
-import { ApiError } from '../../../error/ApiError';
-import { any } from 'zod';
 import { WishlistService } from './wishlist.service';
+import { Wishlist } from './wishlist.model';
+import { ApiError } from '../../../error/ApiError';
 
 const addBookWishlist = AsyncErrorHandler(
   async (req: Request, res: Response) => {
-    const result = await WishlistService.addBookWishlist(req.body);
+    const book = req.body;
+
+    const isExist = await Wishlist.findOne({
+      userEmail: book?.userEmail,
+      bookId: book?.bookId,
+    }).lean();
+
+    console.log(
+      ' isExist=================================================================================================================',
+      isExist
+    );
+    if (isExist) {
+      await Wishlist.deleteOne({
+        userEmail: book?.userEmail,
+        bookId: book?.bookId,
+      });
+
+      return sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'remove successfully',
+      });
+    }
+    const result = await WishlistService.addBookWishlist(book);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
@@ -19,7 +42,8 @@ const addBookWishlist = AsyncErrorHandler(
 );
 
 const getWishlists = AsyncErrorHandler(async (req: Request, res: Response) => {
-  const result = await WishlistService.getWishlists();
+  const user = req.user;
+  const result = await WishlistService.getWishlists(user);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

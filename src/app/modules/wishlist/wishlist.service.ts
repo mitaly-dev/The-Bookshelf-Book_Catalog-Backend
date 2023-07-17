@@ -1,8 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
-import { JwtPayload } from 'jsonwebtoken';
 import { ApiError } from '../../../error/ApiError';
 import { Wishlist } from './wishlist.model';
 import { IWishlist } from './wishlist.interface';
+import { JwtPayload } from 'jsonwebtoken';
 
 const addBookWishlist = async (payload: IWishlist) => {
   const result = await Wishlist.create(payload);
@@ -12,14 +11,15 @@ const addBookWishlist = async (payload: IWishlist) => {
   return result;
 };
 
-const getWishlists = async () => {
-  const result = await Wishlist.find({});
+const getWishlists = async (user: JwtPayload | null) => {
+  const result = await Wishlist.find({ userEmail: user?.email }).lean();
+
   return {
     data: result,
   };
 };
 
-export const BookService = {
+export const WishlistService = {
   addBookWishlist,
   getWishlists,
 };

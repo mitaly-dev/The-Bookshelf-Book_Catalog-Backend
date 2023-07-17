@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import mongoose, { Schema } from 'mongoose';
-import { IWishlist } from './wishlist.interface';
+import { IPlanToRead } from './planToRead.interface';
 
-const WishlistSchema = new Schema<IWishlist>(
+const planToReadSchema = new Schema<IPlanToRead>(
   {
     book: {
       type: Object,
@@ -22,4 +22,7 @@ const WishlistSchema = new Schema<IWishlist>(
   }
 );
 
-export const Wishlist = mongoose.model<IWishlist>('Wishlist', WishlistSchema);
+export const PlanToRead = mongoose.model<IPlanToRead>(
+  'PlanToRead',
+  planToReadSchema
+);

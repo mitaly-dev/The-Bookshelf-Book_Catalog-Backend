@@ -68,11 +68,6 @@ const updateBook = AsyncErrorHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await BookService.updateBook(id, req.body);
 
-  console.log(
-    'req.body==================================================================',
-    req.body
-  );
-
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
