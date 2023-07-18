@@ -78,8 +78,7 @@ const updateBook = AsyncErrorHandler(async (req: Request, res: Response) => {
 
 const deleteBook = AsyncErrorHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = req.user;
-  const result = await BookService.deleteBook(id, user);
+  const result = await BookService.deleteBook(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -92,6 +91,10 @@ const deleteBook = AsyncErrorHandler(async (req: Request, res: Response) => {
 const addReview = AsyncErrorHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
 
+  console.log(
+    'req.body review=============================================================================',
+    req.body
+  );
   const result = await BookService.addReview(id, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -104,6 +107,7 @@ const addReview = AsyncErrorHandler(async (req: Request, res: Response) => {
 const getPublishedYears = AsyncErrorHandler(
   async (req: Request, res: Response) => {
     const genre = req.query.genre as string;
+
     const result = await BookService.getPublishedYears(genre);
 
     sendResponse(res, {

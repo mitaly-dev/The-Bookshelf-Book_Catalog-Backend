@@ -3,6 +3,8 @@ import { JwtPayload } from 'jsonwebtoken';
 import { Book } from './book.model';
 import { IBook, IBookFilters, IReview } from './book.interface';
 import { ApiError } from '../../../error/ApiError';
+import { Wishlist } from '../wishlist/wishlist.model';
+import { PlanToRead } from '../planToRead/planToRead.model';
 
 const addNewBook = async (user: JwtPayload | null, payload: IBook) => {
   const result = await Book.create(payload);
@@ -39,7 +41,9 @@ const getAllBooks = async (filters: IBookFilters | any) => {
 
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
-  const result = await Book.find(whereConditions);
+  const result = await Book.find(whereConditions)
+    .sort({ createdAt: -1 })
+    .lean();
 
   const total = await Book.countDocuments();
 
@@ -50,7 +54,7 @@ const getAllBooks = async (filters: IBookFilters | any) => {
 
 const getFeaturedBooks = async () => {
   const result = await Book.find({}).sort({ createdAt: -1 }).limit(10);
-  console.log(' result', result);
+
   if (!result) {
     throw new ApiError(404, 'Book not found!');
   }
@@ -75,12 +79,10 @@ const updateBook = async (id: string, payload: IBook) => {
   return result;
 };
 
-const deleteBook = async (id: string, user: JwtPayload | null) => {
-  const isAuthorized = await Book.findOne({ _id: id }).lean();
-  if (user?.email && isAuthorized?.userEmail !== user.email) {
-    throw new ApiError(404, 'You are not Authorized to delete this book!');
-  }
+const deleteBook = async (id: string) => {
   const result = await Book.deleteOne({ _id: id }).lean();
+  const result2 = await Wishlist.deleteOne({ bookId: id }).lean();
+  const result3 = await PlanToRead.deleteOne({ bookId: id }).lean();
   if (!result) {
     throw new ApiError(404, 'Book not delete successful!');
   }
@@ -88,36 +90,29 @@ const deleteBook = async (id: string, user: JwtPayload | null) => {
 };
 
 const addReview = async (id: string, payload: IReview) => {
-  const book = await Book.findById({ _id: id }).lean();
-
-  if (book) {
-    const book = await Book.findByIdAndUpdate(
-      id,
-      { $push: { reviews: { $each: [payload], $position: 0 } } },
-      { new: true }
-    ).lean();
-  }
+  const book: IBook | null = await Book.findByIdAndUpdate(
+    id,
+    { $push: { reviews: { $each: [payload], $position: 0 } } },
+    { new: true }
+  ).lean();
 
   if (!book) {
-    throw new ApiError(404, 'no book found');
+    throw new ApiError(404, 'No book found');
   }
+
   return book;
 };
 const getPublishedYears = async (genre: string) => {
   const result = await Book.find({ genre }).lean();
 
   const uniqueValues: any[] = [];
-  result.filter(data => {
+  result.forEach(data => {
     if (!uniqueValues.includes(data?.publicationYear)) {
       uniqueValues.push(data?.publicationYear);
     }
   });
 
-  console.log(' result', result);
-  if (!result) {
-    throw new ApiError(404, 'Publish year not found!');
-  }
-  return result;
+  return uniqueValues;
 };
 
 export const BookService = {

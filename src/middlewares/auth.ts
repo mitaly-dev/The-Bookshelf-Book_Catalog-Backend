@@ -7,12 +7,6 @@ import config from '../config';
 
 const auth = () => async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log(
-      'req.headers.authorization==================================================================================================================================================================',
-      req.headers.authorization
-    );
-    //get authorization token
-
     const token = req.headers.authorization;
 
     if (!token) {
